@@ -61,7 +61,7 @@ userRouter.post("/login",async (req,res)=>{
 })
 
 
-userRouter.patch("user/:id/reset",authenticate,async(req,res)=>{
+userRouter.patch("/user/:id/reset",authenticate,async(req,res)=>{
     try {
         const {id}=req.params
         const {currentPassword,newPassword}=req.body

@@ -17,7 +17,7 @@ restaurantRouter.get("/restaurants",async (req,res)=>{
 })
 
 
-// restaurantRouter.post("restaurants",async(req,res)=>{
+// restaurantRouter.post("/restaurants",async(req,res)=>{
 //     try {
 //         const {name,address}=req.body
 
