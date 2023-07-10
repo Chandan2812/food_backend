@@ -17,24 +17,24 @@ restaurantRouter.get("/restaurants",async (req,res)=>{
 })
 
 
-// restaurantRouter.post("/restaurants",async(req,res)=>{
-//     try {
-//         const {name,address}=req.body
+restaurantRouter.post("/restaurants",async(req,res)=>{
+    try {
+        const {name,address}=req.body
 
-//         const restaurant = new RestaurantModel ({name,address})
-//         await restaurant.save()
+        const restaurant = new RestaurantModel ({name,address})
+        await restaurant.save()
 
-//         res.status(201).json({message:"restaurant added successfully"})
-//     } catch (error) {
-//         res.status(500).json({message:error.message}) 
-//     }
-// })
+        res.status(201).json({message:"restaurant added successfully"})
+    } catch (error) {
+        res.status(500).json({message:error.message}) 
+    }
+})
 
 
 restaurantRouter.get("/restaurants/:id",async (req,res)=>{
     try {
         const {id}=req.params
-        const restaurants= await RestaurantModel.find(id)
+        const restaurants= await RestaurantModel.findById(id)
         if(!restaurants)
         {
             return res.status(404).json({message:"Restaurant not found"})
@@ -50,7 +50,7 @@ restaurantRouter.get("/restaurants/:id",async (req,res)=>{
 restaurantRouter.get("/restaurants/:id/menu",async (req,res)=>{
     try {
         const {id}=req.params
-        const restaurants= await RestaurantModel.find(id)
+        const restaurants= await RestaurantModel.findById(id)
         if(!restaurants)
         {
             return res.status(404).json({message:"Restaurant not found"})
@@ -67,7 +67,7 @@ restaurantRouter.post("/restaurants/:id/menu",authenticate,async (req,res)=>{
         const {id}=req.params
 
         const {name,description,price,image}=req.body
-        const restaurants= await RestaurantModel.find(id)
+        const restaurants= await RestaurantModel.findById(id)
         if(!restaurants)
         {
             return res.status(404).json({message:"Restaurant not found"})
@@ -76,6 +76,8 @@ restaurantRouter.post("/restaurants/:id/menu",authenticate,async (req,res)=>{
         const newItem= {name,description,price,image}
 
         restaurants.menu.push(newItem)
+        await restaurants.save()
+        res.status(200).json({message:"menu added"})
 
     } catch (error) {
         res.status(500).json({message:error.message}) 
@@ -86,7 +88,7 @@ restaurantRouter.post("/restaurants/:id/menu",authenticate,async (req,res)=>{
 restaurantRouter.delete("/restaurants/:id/menu/:itemid",authenticate,async (req,res)=>{
     try {
         const {id,itemid}=req.params
-        const restaurants= await RestaurantModel.find(id)
+        const restaurants= await RestaurantModel.findById(id)
         if(!restaurants)
         {
             return res.status(404).json({message:"Restaurant not found"})

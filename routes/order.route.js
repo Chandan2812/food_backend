@@ -22,7 +22,7 @@ orderRouter.get("/orders/:id",authenticate,async (req,res)=>{
     try {
         const {id}=req.params
 
-        const order=await OrderModel.find(id)
+        const order=await OrderModel.findById(id)
         if(!order)
         {
             return res.status(404).json({message:"order not found"})
@@ -40,7 +40,7 @@ orderRouter.patch("/orders/:id",authenticate,async (req,res)=>{
        const {id}=req.params
        const {status}=req.body
 
-       const order=await OrderModel.find(id)
+       const order=await OrderModel.findById(id)
         if(!order)
         {
             return res.status(404).json({message:"order not found"})
